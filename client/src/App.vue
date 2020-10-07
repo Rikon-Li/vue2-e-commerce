@@ -1,21 +1,34 @@
 <template>
   <div id="app">
     <h1>app</h1>
-    <nav class="nav">
-      <router-link to="/login">登录</router-link>
-      <router-link to="/register">注册</router-link>
-    </nav>
+
     <router-view />
   </div>
 </template>
 
 <script>
-import Login from "./views/Login";
-import Register from "./views/Register";
+import { mapState } from "vuex";
 export default {
-  components: {
-    Login,
-    Register,
+  computed: {
+    ...mapState({
+      isLogin: (state) => state.user.isLogin,
+    }),
+  },
+  watch: {
+    isLogin: {
+      handler(newVal) {
+        console.log("isLogin:", newVal);
+        if (!newVal) {
+          // 登录状态过期了，需要重新登录
+          this.$router.push("/auth");
+        }
+      },
+      immediate: true,
+    },
+  },
+  created() {
+    // 检查是否登录（登录是否过期）
+    this.$store.dispatch("user/checkLogin");
   },
 };
 </script>

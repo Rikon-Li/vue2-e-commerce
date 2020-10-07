@@ -1,5 +1,6 @@
 import Router from "vue-router";
 import Vue from "vue";
+import store from "../store";
 
 Vue.use(Router);
 
@@ -7,26 +8,53 @@ const router = new Router({
   mode: "history",
   routes: [
     {
+      path: "/",
+      name: "root",
+      redirect: "/auth",
+    },
+    {
+      path: "/auth",
+      name: "auth",
+      redirect: "/auth/login",
+      component: () => import("../views/auth/Auth"),
+      children: [
+        {
+          path: "login",
+          name: "login",
+          component: () => import("../views/auth/Login"),
+        },
+        {
+          path: "register",
+          name: "register",
+          component: () => import("../views/auth/Register"),
+        },
+      ],
+    },
+    {
       path: "/home",
+      name: "home",
       component: () => import("../views/Home"),
     },
     {
-      path: "/login",
-      component: () => import("../views/Login"),
-    },
-    {
-      path: "/register",
-      component: () => import("../views/Register"),
+      path: "/product",
+      name: "product",
+      component: () => import("../views/Product"),
     },
   ],
 });
 
-// 登录了才可以进入，没有登录只可以进入登录注册页面
 router.beforeEach((to, from, next) => {
-  if (to.path === "/home") {
-    next("/login");
-  } else {
+  if (to.name === "login" || to.name === "register") {
+    // 登录注册页面
     next();
+  } else {
+    // 进入项目
+    // 判断是否有权限
+    if (store.state.user.isLogin) {
+      next();
+    } else {
+      next("/auth");
+    }
   }
 });
 

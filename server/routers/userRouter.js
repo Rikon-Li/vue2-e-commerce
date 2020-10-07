@@ -22,10 +22,7 @@ router.post("/login", async (req, res) => {
   // 取得请求参数
   const { username, password } = req.body;
   // 查询用户名和密码是否正确
-  const result = await User.findOne(
-    { username, password },
-    { password: false }
-  );
+  const result = await User.findOne({ username, password }, { password: false });
   if (!result) {
     res.status(200).json({ code: -1, message: "用户名或密码错误！" });
     return;
@@ -44,10 +41,15 @@ router.use((req, res, next) => {
   }
 });
 
+// 检查登录是否过期
+router.use("/check_login", (req, res) => {
+  res.status(200).json({ code: 0, message: "登录成功！" });
+});
+
 // 退出登录
 router.get("/logout", (req, res) => {
   // 删除session中的用户数据
-  delete res.session.user;
+  delete req.session.user;
   // 相应客户端
   res.status(200).json({ code: 0, message: "退出成功" });
 });
