@@ -28,7 +28,9 @@ export default {
   },
   created() {
     // 检查是否登录（登录是否过期）
-    this.$store.dispatch("user/checkLogin");
+    if (this.isLogin) {
+      this.$store.dispatch("user/checkLogin");
+    }
   },
 };
 </script>

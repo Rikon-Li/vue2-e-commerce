@@ -8,11 +8,6 @@ const router = new Router({
   mode: "history",
   routes: [
     {
-      path: "/",
-      name: "root",
-      redirect: "/auth",
-    },
-    {
       path: "/auth",
       name: "auth",
       redirect: "/auth/login",
@@ -31,14 +26,20 @@ const router = new Router({
       ],
     },
     {
-      path: "/home",
-      name: "home",
-      component: () => import("../views/Home"),
-    },
-    {
-      path: "/product",
-      name: "product",
-      component: () => import("../views/Product"),
+      path: "/",
+      component: () => import("../layout/Index"),
+      children: [
+        {
+          path: "",
+          name: "home",
+          component: () => import("../views/Home"),
+        },
+        {
+          path: "product",
+          name: "product",
+          component: () => import("../views/Product"),
+        },
+      ],
     },
   ],
 });

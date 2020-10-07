@@ -28,7 +28,7 @@ export default {
           if (data.data.code === 0) {
             // 登录成功
             this.$store.dispatch("user/changeLoginAction", true);
-            this.$router.push("/home");
+            this.$router.push({ name: "home" });
           } else {
             // 登录失败
             alert(data.data.message);
