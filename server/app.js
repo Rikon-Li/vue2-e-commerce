@@ -1,22 +1,19 @@
 const express = require("express");
-var session = require("express-session");
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
 const config = require("./config");
-var MongoDBStore = require("connect-mongodb-session")(session);
 
 const app = express();
 
 // 准备session存放的仓库
-
 var store = new MongoDBStore({
   uri: `mongodb://${config.db_host}:${config.db_port}/${config.db_name}`,
   collection: "sessions",
 });
-
 // Catch errors
 store.on("error", function (error) {
   console.log(error);
 });
-
 app.use(
   require("express-session")({
     secret: "This is a secret",
@@ -33,5 +30,6 @@ app.use(
 app.use(express.urlencoded());
 app.use(express.json());
 app.use("/api/user", require("./routers/userRouter"));
+app.use("/api/product", require("./routers/productRouter"));
 
 module.exports = app;

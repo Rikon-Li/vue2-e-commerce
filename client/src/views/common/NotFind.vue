@@ -1,10 +1,15 @@
 <template>
-  <div>产品页面</div>
+  <div>
+    <h1>404</h1>
+  </div>
 </template>
 
 <script>
-export default {};
+export default {
+
+}
 </script>
 
 <style>
+
 </style>

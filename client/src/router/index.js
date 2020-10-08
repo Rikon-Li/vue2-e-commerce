@@ -1,27 +1,29 @@
 import Router from "vue-router";
 import Vue from "vue";
 import store from "../store";
-
+import auth from "./authRoute";
+import main from "./mainRoute";
 Vue.use(Router);
 
 const router = new Router({
   mode: "history",
   routes: [
+    auth,
     {
-      path: "/auth",
-      name: "auth",
-      redirect: "/auth/login",
-      component: () => import("../views/auth/Auth"),
+      path: "/",
+      component: () => import("../layout/Index"),
+      name: 'app',
       children: [
+        // 系统首页
         {
-          path: "login",
-          name: "login",
-          component: () => import("../views/auth/Login"),
-        },
-        {
-          path: "register",
-          name: "register",
-          component: () => import("../views/auth/Register"),
+          path: "",
+          name: "home",
+          component: () => import("../views/home/Home"),
+          meta: {
+            //路由的数据
+            icon: "home",
+            title: "系统首页",
+          },
         },
       ],
     },
@@ -30,16 +32,14 @@ const router = new Router({
       component: () => import("../layout/Index"),
       children: [
         {
-          path: "",
-          name: "home",
-          component: () => import("../views/Home"),
-        },
-        {
-          path: "product",
-          name: "product",
-          component: () => import("../views/Product"),
+          path: "404",
+          component: () => import("../views/common/NotFind"),
         },
       ],
+    },
+    {
+      path: "*",
+      redirect: "/404",
     },
   ],
 });

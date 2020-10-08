@@ -1,51 +1,37 @@
 <template>
-  <div id="app">
-    <h1>app</h1>
+<div id="app">
 
-    <router-view />
-  </div>
+  <router-view/>
+
+</div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import {mapState} from 'vuex'
 export default {
   computed: {
     ...mapState({
-      isLogin: (state) => state.user.isLogin,
-    }),
+      isLogin: state=>state.user.isLogin
+    })
   },
   watch: {
     isLogin: {
-      handler(newVal) {
-        console.log("isLogin:", newVal);
-        if (!newVal) {
+      handler(newVal){
+        if(!newVal){
           // 登录状态过期了，需要重新登录
-          this.$router.push("/auth");
+          this.$router.replace('/auth');
         }
       },
-      immediate: true,
-    },
-  },
-  created() {
-    // 检查是否登录（登录是否过期）
-    if (this.isLogin) {
-      this.$store.dispatch("user/checkLogin");
+      immediate: true
     }
   },
-};
-</script>
-
-<style scoped lang='scss'>
-.nav {
-  display: flex;
-  a {
-    list-style: none;
-    text-decoration: none;
-    color: #333;
-    margin: 10px;
-    &.router-link-active {
-      color: green;
+  created(){
+    // 检查登录了么，是否过期了
+    if(this.isLogin){
+      this.$store.dispatch('user/checkLogin');
     }
+    
   }
 }
-</style>
+</script>
+
