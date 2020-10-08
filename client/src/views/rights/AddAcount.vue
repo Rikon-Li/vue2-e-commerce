@@ -20,11 +20,9 @@
     <h1>权限分配</h1>
 
     <div v-for="item in authArr" :key="item.name">
-      <b>{{item.title}}</b>
+      <b>{{ item.title }}</b>
       <a-checkbox-group :options="item.children" v-model="value[item.name]" />
     </div>
-
-    
 
     <button @click="addAction">添加</button>
   </div>
@@ -33,7 +31,7 @@
 <script>
 import { Form, Input, Checkbox } from "ant-design-vue";
 import mainRoute from "../../router/mainRoute";
-import axios from 'axios'
+import axios from "axios";
 const authArr = mainRoute.children
   .map((item) => {
     let children = [];
@@ -57,9 +55,9 @@ const authArr = mainRoute.children
   .filter((item) => item.name !== "home");
 
 const value = {};
-authArr.forEach(item=>{
+authArr.forEach((item) => {
   value[item.name] = [];
-})
+});
 
 // 样式
 const formItemLayout = {
@@ -106,26 +104,34 @@ export default {
           return;
         }
         // 表单验证成功
-        console.log(this.form.getFieldsValue(['username', 'nickname', 'phonenumber', 'job']));
+        console.log(
+          this.form.getFieldsValue([
+            "username",
+            "nickname",
+            "phonenumber",
+            "job",
+          ])
+        );
         console.log(Object.values(this.value));
         let auth = [];
-        Object.values(this.value).forEach(arr=>{
+        Object.values(this.value).forEach((arr) => {
           auth = [...auth, ...arr];
         });
         console.log(auth);
         // 发送请求，添加账号
-        axios.post('/api/user/add-acount', {
-          username: this.form.getFieldValue('username'),
-          nickname: this.form.getFieldValue('nickname'),
-          phonenumber: this.form.getFieldValue('phonenumber'),
-          job: this.form.getFieldValue('job'),
-          auth: auth
-        })
-        .then(data=>{
-          console.log(data);
-        })
+        axios
+          .post("/api/user/add-acount", {
+            username: this.form.getFieldValue("username"),
+            nickname: this.form.getFieldValue("nickname"),
+            phonenumber: this.form.getFieldValue("phonenumber"),
+            job: this.form.getFieldValue("job"),
+            auth: auth,
+          })
+          .then((data) => {
+            console.log(data);
+          });
       });
-    }
+    },
   },
   created() {
     console.log(this.form);

@@ -7,26 +7,34 @@ module.exports = model("goods", {
   },
   sales: {
     type: String,
+    default: 0,
   },
   cate: {
     type: String,
+    required: true,
   },
   price: {
     type: String,
-  },
-  simg: {
-    type: Array,
+    required: true,
   },
   originPrice: {
     type: String,
+    required: true,
   },
   store: {
     type: String,
+    required: true,
   },
   freight: {
     type: String,
+    default: 0,
   },
   pic: {
     type: String,
+    default: "https://i.loli.net/2020/10/08/HJUcQg42slo6vyz.gif",
+  },
+  simg: {
+    type: Array,
+    default: ["https://i.loli.net/2020/10/08/HJUcQg42slo6vyz.gif"],
   },
 });

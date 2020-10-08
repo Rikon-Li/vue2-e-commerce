@@ -2,17 +2,7 @@
   <div>
     <h1>商品列表</h1>
     <template>
-      <a-table
-        :columns="columns"
-        :row-key="(record) => record.login.uuid"
-        :data-source="data"
-        :pagination="pagination"
-        :loading="loading"
-        @change="handleTableChange"
-      >
-        <!-- <template slot="name" slot-scope="name">
-          {{ name.first }} {{ name.last }}
-        </template> -->
+      <a-table :columns="columns" :data-source="data" :loading="loading">
       </a-table>
     </template>
   </div>
@@ -20,30 +10,50 @@
 
 
 <script>
-import axios from "axios";
 import reqwest from "reqwest";
 import { Table } from "ant-design-vue";
 const columns = [
-  // {
-  //   title: "Name",
-  //   dataIndex: "name",
-  //   sorter: true,
-  //   width: "20%",
-  //   scopedSlots: { customRender: "name" },
-  // },
-  // {
-  //   title: "Gender",
-  //   dataIndex: "gender",
-  //   filters: [
-  //     { text: "Male", value: "male" },
-  //     { text: "Female", value: "female" },
-  //   ],
-  //   width: "20%",
-  // },
   {
-    title: "Email",
-    dataIndex: "email",
+    title: "商品名称",
+    dataIndex: "title",
+    key: "title",
+    width: "50%",
   },
+  {
+    title: "商品类别",
+    dataIndex: "cate",
+    key: "cate",
+  },
+  {
+    title: "原价",
+    dataIndex: "originPrice",
+    key: "originPrice",
+  },
+  {
+    title: "现价",
+    dataIndex: "price",
+    key: "price",
+  },
+  {
+    title: "已售",
+    dataIndex: "sales",
+    key: "sales",
+  },
+  {
+    title: "库存",
+    dataIndex: "store",
+    key: "store",
+  },
+
+  //   cate: (...)
+  // freight: (...)
+  // originPrice: "2999"
+  // pic: (...)
+  // price: "1999"
+  // sales: (...)
+  // simg: (...)
+  // store: (...)
+  // title: (...)
 ];
 
 export default {
@@ -62,40 +72,17 @@ export default {
     this.fetch();
   },
   methods: {
-    handleTableChange(pagination, filters, sorter) {
-      console.log(pagination);
-      const pager = { ...this.pagination };
-      pager.current = pagination.current;
-      this.pagination = pager;
-      this.fetch({
-        results: pagination.pageSize,
-        page: pagination.current,
-        sortField: sorter.field,
-        sortOrder: sorter.order,
-        ...filters,
-      });
-    },
     fetch(params = {}) {
-      console.log("params:", params);
+      // console.log("params:", params);
       this.loading = true;
       reqwest({
-        url: "https://randomuser.me/api",
-        // url: "/api/product/product_info",
+        url: "/api/product/product_info",
         method: "get",
-        data: {
-          results: 10,
-          ...params,
-        },
         type: "json",
       }).then((data) => {
-        const pagination = { ...this.pagination };
-        // Read total count from server
-        // pagination.total = data.totalCount;
-        console.log(data);
-        pagination.total = 200;
+        // console.log(data);
         this.loading = false;
-        this.data = data.results;
-        this.pagination = pagination;
+        this.data = data.data;
       });
     },
   },
