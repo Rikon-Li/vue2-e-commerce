@@ -1,35 +1,24 @@
 const express = require("express");
-const session = require("express-session");
-const MongoDBStore = require("connect-mongodb-session")(session);
-const config = require("./config");
+const path = require("path");
 
 const app = express();
 
-// 准备session存放的仓库
-var store = new MongoDBStore({
-  uri: `mongodb://${config.db_host}:${config.db_port}/${config.db_name}`,
-  collection: "sessions",
-});
-// Catch errors
-store.on("error", function (error) {
-  console.log(error);
-});
-app.use(
-  require("express-session")({
-    secret: "This is a secret",
-    name: "SESSIONID",
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
-    },
-    store: store,
-    resave: true,
-    saveUninitialized: true,
-  })
-);
-
-app.use(express.urlencoded());
 app.use(express.json());
+app.use(express.urlencoded());
+
+// 假设服务器需要部署多个项目
+// 那么要求每个项目有自己的路径。
+
+// app.use('/css', express.static(path.join(__dirname, './www/css')));
+// app.use('/js', express.static(path.join(__dirname, './www/js')));
+// app.use('/pc/static', express.static(path.join(__dirname, './www')));
+
 app.use("/api/user", require("./routers/userRouter"));
 app.use("/api/product", require("./routers/productRouter"));
+
+// 对于不能匹配的路径，统一响应html页面。因为前端路由使用的history模式，刷新需要响应html页面。html页面加载了js之后，路由才起作用。
+// app.use('/pc', (req, res)=>{
+//   res.sendFile(path.join(__dirname, './www/index.html'));
+// });
 
 module.exports = app;

@@ -1,17 +1,17 @@
 export default {
   path: "/auth",
-  name: "auth",
+  name: "Auth",
   redirect: "/auth/login",
-  component: () => import("../views/auth/Auth"),
+  component: () => import("../views/auth/Index"),
   children: [
     {
       path: "login",
-      name: "login",
+      name: "Login",
       component: () => import("../views/auth/Login"),
     },
     {
       path: "register",
-      name: "register",
+      name: "Register",
       component: () => import("../views/auth/Register"),
     },
   ],

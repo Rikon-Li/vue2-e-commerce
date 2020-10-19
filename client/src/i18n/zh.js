@@ -1,0 +1,22 @@
+export default {
+  title: "你好",
+  home: "系统首页",
+  "goods-manage": "商品管理",
+  "goods-list": "商品列表",
+  "goods-add": "新增商品",
+  "order-manage": "订单管理",
+  "goods-order": "商品订单",
+  "after-sale": "售后管理",
+  "comment-manage": "评价管理",
+  "activity-manage": "活动管理",
+  "platform-manage": "平台管理",
+  "category-setting": "分类设置",
+  "focus-map": "焦点图",
+  "freight-template": "运费模版",
+  "vip-manage": "会员管理",
+  "data-statistics": "数据统计",
+  "rights-manage": "权限管理",
+  homePage: {
+    message: "欢迎光临～",
+  },
+};

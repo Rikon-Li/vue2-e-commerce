@@ -64,16 +64,16 @@
           </a-button>
         </a-form-item>
       </a-form>
+      <h3>*****「 账号：admin | 密码：admin 」*****</h3>
     </template>
-    <!-- <input type="text" placeholder="用户名" v-model="username" />
-    <input type="password" placeholder="密码" v-model="password" />
-    <button @click="loginAction">登录</button> -->
   </div>
 </template>
-
 <script>
+import { http, api } from "../../request";
 import axios from "axios";
 import { Form, Input, Icon, Checkbox, Button } from "ant-design-vue";
+import { log } from "@antv/g2plot/lib/utils";
+
 export default {
   components: {
     [Form.name]: Form,
@@ -93,71 +93,35 @@ export default {
     this.form = this.$form.createForm(this, { name: "normal_login" });
   },
   methods: {
-    // 登录
-    loginAction() {
-      axios
-        .post("/api/user/login", {
-          username: this.username,
-          password: this.password,
-        })
-        .then((data) => {
-          console.log(data);
-          if (data.data.code === 0) {
-            //登录成功
-            this.$store.dispatch("user/changeLoginAction", true);
-            this.$router.push({ name: "home" });
-            // 查询用户信息
-            this.$store.dispatch("user/requestUserInfo");
-          } else {
-            // 登录失败
-            alert(data.data.message);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          alert("登录失败");
-        });
+    async confirmAction(values) {
+      const data = await http.post(api.LOGIN_API, {
+        username: values.userName,
+        password: values.password,
+      });
+      //登录成功
+      localStorage.setItem("token", data.token);
+      this.$router.push("/");
     },
+
     handleSubmit(e) {
       e.preventDefault();
+
       this.form.validateFields((err, values) => {
         if (!err) {
           console.log("Received values of form: ", values);
         }
+        this.confirmAction(values);
       });
-
-      axios
-        .post("/api/user/login", {
-          username: this.form.getFieldValue("userName"),
-          password: this.form.getFieldValue("password"),
-        })
-        .then((data) => {
-          if (data.data.code === 0) {
-            //登录成功
-            this.$store.dispatch("user/changeLoginAction", true);
-            this.$router.push({ name: "home" });
-            // 查询用户信息
-            this.$store.dispatch("user/requestUserInfo");
-          } else {
-            // 登录失败
-            alert(data.data.message);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          alert("登录失败");
-        });
     },
   },
 };
 </script>
-
 <style>
 #login {
   width: 500px;
   position: absolute;
   left: 50%;
-  top: 30%;
+  top: 35%;
   transform: translateX(-50%) translateY(-50%);
 }
 #components-form-demo-normal-login .login-form {
