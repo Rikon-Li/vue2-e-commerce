@@ -1,5 +1,5 @@
 module.exports = {
-  server_port: 3000,
+  server_port: 80,
   server_host: "localhost",
   db_port: 27017,
   db_host: "47.112.160.41",

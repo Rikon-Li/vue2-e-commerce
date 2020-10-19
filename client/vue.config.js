@@ -1,9 +1,9 @@
 module.exports = {
-  // publicPath: "/pc/static",
+  // publicPath: "/static",
   devServer: {
     proxy: {
       "/api": {
-        target: "http://localhost:3000",
+        target: "http://localhost:80",
         changeOrigin: true,
       },
     },

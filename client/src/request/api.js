@@ -1,4 +1,4 @@
-export const HOST = "http://localhost:3000";
+export const HOST = "http://localhost:80";
 
 export const REGISTER_API = "/api/user/register";
 

@@ -9,7 +9,7 @@ mongoose.connect(
   `mongodb://${config.db_host}:${config.db_port}/${config.db_name}`,
   {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
   },
   (error) => {
     if (error) {
@@ -25,10 +25,7 @@ mongoose.connect(
       });
 
       server.listen(config.server_port, () => {
-        console.log(
-          "server start:",
-          chalk.green(`http://${config.server_host}:${config.server_port}`)
-        );
+        console.log("server start:", chalk.green(`http://${config.server_host}:${config.server_port}`));
       });
     }
   }
